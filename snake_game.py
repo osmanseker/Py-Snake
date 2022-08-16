@@ -13,8 +13,6 @@ FOOD_COLOR = "red"
 BG_COLOR = "black"
 
 
-
-
 class Snake:
     def __init__(self) -> None:
         self.body_size = BODY_PARTS
@@ -51,14 +49,23 @@ def next_turn(snake, food):
     snake.coordinates.insert(0,(x,y))
 
     square = canvas.create_rectangle(x,y,x+SPACE_SIZE, y+SPACE_SIZE,fill=SNAKE_COLOR)
-    
     snake.squares.insert(0,square)
-    del snake.coordinates[-1]  
-    canvas.delete(snake.squares[-1])
-    del snake.squares[-1]
 
+    if x == food.coordinates[0] and y == food.coordinates[1]:
+        global score
+        score += 1
+        label.config(text="Score:{}".format(score))
+        canvas.delete("food")
+        food = Food()
+    else: 
+        del snake.coordinates[-1]  
+        canvas.delete(snake.squares[-1])
+        del snake.squares[-1] 
 
-    window.after(SPEED, next_turn, snake, food)
+    if check_collisions(snake):
+        game_over()
+    else:
+        window.after(SPEED, next_turn, snake, food)
 
 def change_direction(new_direction):
     
