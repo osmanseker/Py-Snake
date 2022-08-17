@@ -8,7 +8,7 @@ from turtle import window_height, window_width
 GAME_WIDTH = 600
 GAME_HEIGHT = 600
 SPEED = 100
-SPACE_SIZE = 30
+SPACE_SIZE = 25
 BODY_PARTS = 3
 SNAKE_COLOR = "green"
 FOOD_COLOR = "red"
@@ -109,13 +109,24 @@ window.title("Python Snake Game")
 score = 0
 direction = 'down'
 
-label = Label(window, text="Score:{}". format(score), font=("courier", 40))
+#visual settings
+label = Label(window, text="Score:{}". format(score), font=("courier", 20))
 label.pack()
-
 canvas = Canvas(window, bg=BG_COLOR, height=GAME_HEIGHT, width=GAME_WIDTH)
 canvas.pack()
 
+#everytime code runs, center screen
+window.update()
+window_width = window.winfo_width()
+window_height = window.winfo_height()
+screen_width = window.winfo_screenwidth()
+screen_height = window.winfo_screenheight()
 
+x = int((screen_width/2) - (window_width/2))
+y = int((screen_height/2) - (window_height/2))
+window.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
+#making game playable with arrows
 window.bind('<Left>', lambda event: change_direction('left'))
 window.bind('<Right>', lambda event: change_direction('right'))
 window.bind('<Up>', lambda event: change_direction('up'))
@@ -124,5 +135,4 @@ window.bind('<Down>', lambda event: change_direction('down'))
 snake = Snake()
 food = Food()
 next_turn(snake, food)
-
 window.mainloop()
