@@ -1,3 +1,5 @@
+from cgitb import text
+from textwrap import fill
 from tkinter import *
 import random
 from turtle import window_height, window_width
@@ -6,7 +8,7 @@ from turtle import window_height, window_width
 GAME_WIDTH = 600
 GAME_HEIGHT = 600
 SPEED = 100
-SPACE_SIZE = 50
+SPACE_SIZE = 30
 BODY_PARTS = 3
 SNAKE_COLOR = "green"
 FOOD_COLOR = "red"
@@ -83,11 +85,22 @@ def change_direction(new_direction):
         if direction != 'up':
             direction = new_direction
 
-def check_collisions():
-    pass
+def check_collisions(snake):
+    x,y = snake.coordinates[0]
+    if x < 0 or x >= GAME_WIDTH:
+        return True
+    elif y < 0 or y >= GAME_HEIGHT:
+        return True
+    
+    for body_part in snake.coordinates[1:]:
+        if x == body_part[0] and y == body_part[1]:
+            return True
+    
+    return False
 
 def game_over():
-    pass
+    canvas.delete(ALL)
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2, font=("courrier",70), text= "Game Over", fill="red", tag= "gameover")
 
 
 window = Tk()
@@ -111,6 +124,5 @@ window.bind('<Down>', lambda event: change_direction('down'))
 snake = Snake()
 food = Food()
 next_turn(snake, food)
-
 
 window.mainloop()
