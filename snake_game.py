@@ -1,8 +1,5 @@
-from cgitb import text
-from textwrap import fill
 from tkinter import *
 import random
-from turtle import window_height, window_width
 
 #constants
 GAME_WIDTH = 600
